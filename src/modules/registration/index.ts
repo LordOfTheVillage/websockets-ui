@@ -4,7 +4,7 @@ import WebSocket from "ws";
 import {ErrorMessages} from "../../constants/constants";
 
 export const register = (ws: WebSocket, data: any, id: number) => {
-    const { name, password } = data.data;
+    const { name, password } = JSON.parse(data);
 
     const player = Players.getPlayer(name);
     if (player) {

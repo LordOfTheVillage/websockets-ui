@@ -1,14 +1,15 @@
 import * as WebSocket from "ws";
-import {httpServer} from "../http_server";
 import {MessageTypes} from "../constants/constants";
 import {createErrorResponse} from "../utils/utils";
 import {register} from "../modules/registration";
+import { httpServer } from "../http_server";
 
-export const webSocketServer = new WebSocket.Server({ server: httpServer });
-
+export const webSocketServer = new WebSocket.Server({ server: httpServer});
 webSocketServer.on('connection', (ws) => {
     ws.on('message', (message) => {
         const {type, id, data} = JSON.parse(message.toString());
+        // TODO: remove console.log
+        console.log("GET message", JSON.parse(message.toString()));
 
         switch (type) {
             case MessageTypes.REG:

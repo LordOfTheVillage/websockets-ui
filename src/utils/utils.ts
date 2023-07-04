@@ -12,11 +12,11 @@ export const createRegistrationResponse = (id: number, name: string, index: numb
     return JSON.stringify({
         type: ResponseTypes.REG,
         id,
-        data: {
+        data: JSON.stringify({
             name,
             index,
             error,
             errorText,
-        },
+        }),
     });
 }
