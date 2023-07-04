@@ -21,13 +21,17 @@ export const createRegistrationResponse = (id: number, name: string, index: numb
     });
 }
 
-export const createCreateGameResponse = (id: number, roomId: number, playerId: number) => {
+export const createCreateGameResponse = (id: number, idGame: number, idPlayer: number) => {
     return JSON.stringify({
         type: ResponseTypes.CREATE_GAME,
         id,
         data: JSON.stringify({
-            roomId,
-            playerId,
+            idGame,
+            idPlayer,
         }),
     });
+}
+
+export const createStartGameResponse = () => {
+    return JSON.stringify({});
 }

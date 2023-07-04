@@ -11,4 +11,5 @@ export interface Player {
     name: string;
     password: string;
     ws: WebSocket;
+    ships?: number[];
 }

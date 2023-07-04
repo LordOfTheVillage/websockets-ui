@@ -4,6 +4,8 @@ import {createErrorResponse} from "../utils/utils";
 import {register} from "../modules/registration";
 import { httpServer } from "../http_server";
 import { createRoom } from "../modules/create_room";
+import { addShips } from "../modules/add_ships";
+import { addPlayerToRoom } from "../modules/add_player_to_room";
 
 export const webSocketServer = new WebSocket.Server({ server: httpServer});
 webSocketServer.on('connection', (ws) => {
@@ -22,8 +24,10 @@ webSocketServer.on('connection', (ws) => {
                 // updateWinners();
                 break;
             case MessageTypes.ADD_PLAYER_TO_ROOM:
+                addPlayerToRoom(ws, data, id);
                 break;
             case MessageTypes.ADD_SHIPS:
+                addShips(ws, data, id);
                 break;
             case MessageTypes.ATTACK:
                 break;
