@@ -4,7 +4,7 @@ import { Rooms } from "../../store/rooms";
 import { ErrorMessages, Statuses } from "../../constants/constants";
 
 export const attack = (ws: WebSocket, data: any, id: number) => {
-  const { gameID, x, y, indexPlayer } = data.data;
+  const { gameID, x, y, indexPlayer } = JSON.parse(data);
   const room = Rooms.getRoom(gameID);
 
   if (!room) {

@@ -5,7 +5,7 @@ import { createCreateGameResponse, createErrorResponse } from "../../utils/utils
 import { ErrorMessages } from "../../constants/constants";
 
 export const addPlayerToRoom = (ws: WebSocket, data: any, id: number) => {
-  const { indexRoom } = data.data;
+  const { indexRoom } = JSON.parse(data);
   const player = Players.getPlayerByWs(ws);
 
   // Find the room with the specified index

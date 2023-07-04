@@ -2,19 +2,20 @@ import { Rooms } from "../../store/rooms";
 import { createErrorResponse } from "../../utils/utils";
 import WebSocket from "ws";
 import { startGame } from "../start_game";
+import { ErrorMessages } from "../../constants/constants";
 
 export const addShips = (ws: WebSocket, data: any, id: number) => {
-  const { gameId, ships, indexPlayer } = data.data;
+  const { gameId, ships, indexPlayer } = JSON.parse(data);
   const room = Rooms.getRoom(gameId);
-
+  console.log("rooms", JSON.stringify(Rooms.getRooms()));
   if (!room) {
-    ws.send(createErrorResponse(id, `Room not found for game ID: ${gameId}`));
+    ws.send(createErrorResponse(id, `${ErrorMessages.ROOM_NOT_FOUND}: ${gameId}`));
     return;
   }
 
   const player = room.players[indexPlayer];
   if (!player) {
-    ws.send(createErrorResponse(id, `Player not found for index: ${indexPlayer}`));
+    ws.send(createErrorResponse(id, `${ErrorMessages.PLAYER_NOT_FOUND}: ${indexPlayer}`));
     return;
   }
 

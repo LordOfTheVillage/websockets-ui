@@ -4,7 +4,7 @@ import { createAttackResponse, createErrorResponse, createFinishResponse } from 
 import { ErrorMessages, Statuses } from "../../constants/constants";
 
 export const randomAttack = (ws: WebSocket, data: any, id: number) => {
-  const { gameID, indexPlayer } = data.data;
+  const { gameID, indexPlayer } = JSON.parse(data);
   const room = Rooms.getRoom(gameID);
 
   if (!room) {
