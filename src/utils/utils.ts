@@ -1,4 +1,4 @@
-import {ResponseTypes} from "../constants/constants";
+import { ResponseTypes, Statuses } from "../constants/constants";
 
 export const createErrorResponse = (id: number, message: string) => {
     return JSON.stringify({
@@ -34,4 +34,29 @@ export const createCreateGameResponse = (id: number, idGame: number, idPlayer: n
 
 export const createStartGameResponse = () => {
     return JSON.stringify({});
+}
+
+export const createFinishResponse = (id: number, winPlayer: number) => {
+    return JSON.stringify({
+        type: ResponseTypes.FINISH,
+        id,
+        data: JSON.stringify({
+            winPlayer,
+        }),
+    });
+}
+
+export const createAttackResponse = (id: number, {x, y}: Record<string, number>, currentPlayer: number, status: Statuses) => {
+    return JSON.stringify({
+        type: ResponseTypes.ATTACK,
+        id,
+        data: JSON.stringify({
+            position: {
+                x,
+                y,
+            },
+            currentPlayer,
+            status,
+        }),
+    });
 }

@@ -6,6 +6,8 @@ import { httpServer } from "../http_server";
 import { createRoom } from "../modules/create_room";
 import { addShips } from "../modules/add_ships";
 import { addPlayerToRoom } from "../modules/add_player_to_room";
+import { attack } from "../modules/attack";
+import { randomAttack } from "../modules/random_attack";
 
 export const webSocketServer = new WebSocket.Server({ server: httpServer});
 webSocketServer.on('connection', (ws) => {
@@ -30,8 +32,10 @@ webSocketServer.on('connection', (ws) => {
                 addShips(ws, data, id);
                 break;
             case MessageTypes.ATTACK:
+                attack(ws, data, id)
                 break;
             case MessageTypes.RANDOM_ATTACK:
+                randomAttack(ws, data, id)
                 break;
             default:
                 ws.send(createErrorResponse(id, `Invalid message type: ${type}`));

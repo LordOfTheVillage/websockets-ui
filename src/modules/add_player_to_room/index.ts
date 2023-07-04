@@ -2,6 +2,7 @@ import WebSocket from "ws";
 import { Players } from "../../store/players";
 import { Rooms } from "../../store/rooms";
 import { createCreateGameResponse, createErrorResponse } from "../../utils/utils";
+import { ErrorMessages } from "../../constants/constants";
 
 export const addPlayerToRoom = (ws: WebSocket, data: any, id: number) => {
   const { indexRoom } = data.data;
@@ -11,7 +12,7 @@ export const addPlayerToRoom = (ws: WebSocket, data: any, id: number) => {
   const room = Rooms.getRoom(indexRoom);
 
   if (!room || !player) {
-    ws.send(createErrorResponse(id, `Room not found: ${indexRoom}`));
+    ws.send(createErrorResponse(id, `${ErrorMessages.ROOM_NOT_FOUND}: ${indexRoom}`));
     return;
   }
 
