@@ -2,6 +2,7 @@ import WebSocket from "ws";
 import { Rooms } from "../../store/rooms";
 import { createAttackResponse, createErrorResponse, createFinishResponse } from "../../utils/utils";
 import { ErrorMessages, Statuses } from "../../constants/constants";
+import { updateRoom } from "../update_room";
 
 export const randomAttack = (ws: WebSocket, data: any, id: number) => {
   const { gameID, indexPlayer } = JSON.parse(data);
@@ -49,6 +50,5 @@ export const randomAttack = (ws: WebSocket, data: any, id: number) => {
   currentPlayer.ws.send(createAttackResponse(id, { x, y }, room.turn, status));
   otherPlayer.ws.send(createAttackResponse(id, { x, y }, room.turn, status));
 
-  // TODO: Send the updated room state to all players in the room
-  // updateRoomState();
+  updateRoom(id);
 }

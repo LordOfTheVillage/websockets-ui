@@ -43,3 +43,11 @@ webSocketServer.on('connection', (ws) => {
         }
     });
 });
+
+export const broadcastResponse = (response: any) => {
+    webSocketServer.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(response);
+        }
+    });
+}

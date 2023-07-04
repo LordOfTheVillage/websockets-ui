@@ -3,6 +3,7 @@ import { Players } from "../../store/players";
 import { Rooms } from "../../store/rooms";
 import { createCreateGameResponse, createErrorResponse } from "../../utils/utils";
 import { ErrorMessages } from "../../constants/constants";
+import { updateRoom } from "../update_room";
 
 export const addPlayerToRoom = (ws: WebSocket, data: any, id: number) => {
   const { indexRoom } = JSON.parse(data);
@@ -19,6 +20,6 @@ export const addPlayerToRoom = (ws: WebSocket, data: any, id: number) => {
   Rooms.addPlayerToRoom(indexRoom, player);
 
   ws.send(createCreateGameResponse(id, room.index, player.index));
-  // TODO: Send the updated room state to all players in the room
-  // updateRoomState();
+
+  updateRoom(id);
 }

@@ -2,6 +2,7 @@ import {Players} from "../../store/players";
 import {createRegistrationResponse} from "../../utils/utils";
 import WebSocket from "ws";
 import {ErrorMessages} from "../../constants/constants";
+import { updateRoom } from "../update_room";
 
 export const register = (ws: WebSocket, data: any, id: number) => {
     const { name, password } = JSON.parse(data);
@@ -17,4 +18,6 @@ export const register = (ws: WebSocket, data: any, id: number) => {
     const index = Players.getPlayer(name)!.index;
 
     ws.send(createRegistrationResponse(id, name, index, false));
+
+    updateRoom(id);
 }

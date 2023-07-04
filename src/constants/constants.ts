@@ -1,7 +1,7 @@
 export enum MessageTypes {
     REG = 'reg',
     CREATE_ROOM = 'create_room',
-    ADD_PLAYER_TO_ROOM = 'add_player_to_room',
+    ADD_PLAYER_TO_ROOM = 'add_user_to_room',
     ADD_SHIPS = 'add_ships',
     ATTACK = 'attack',
     RANDOM_ATTACK = 'randomAttack',
@@ -11,6 +11,7 @@ export enum ResponseTypes  {
     REG = 'reg',
     CREATE_GAME = 'create_game',
     UPDATE_ROOM = 'update_room',
+    START_GAME = 'start_game',
     TURN = 'turn',
     ATTACK = 'attack',
     FINISH =  'finish',

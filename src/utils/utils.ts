@@ -33,7 +33,9 @@ export const createCreateGameResponse = (id: number, idGame: number, idPlayer: n
 }
 
 export const createStartGameResponse = () => {
-    return JSON.stringify({});
+    return JSON.stringify({
+        type: ResponseTypes.START_GAME,
+    });
 }
 
 export const createFinishResponse = (id: number, winPlayer: number) => {
@@ -58,5 +60,13 @@ export const createAttackResponse = (id: number, {x, y}: Record<string, number>,
             currentPlayer,
             status,
         }),
+    });
+}
+
+export const createUpdateRoomResponse = (id: number, roomData: any) => {
+    return JSON.stringify({
+        type: ResponseTypes.UPDATE_ROOM,
+        id,
+        data: JSON.stringify([...roomData]),
     });
 }

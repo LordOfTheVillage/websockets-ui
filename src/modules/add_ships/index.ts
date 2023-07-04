@@ -7,7 +7,7 @@ import { ErrorMessages } from "../../constants/constants";
 export const addShips = (ws: WebSocket, data: any, id: number) => {
   const { gameId, ships, indexPlayer } = JSON.parse(data);
   const room = Rooms.getRoom(gameId);
-  console.log("rooms", JSON.stringify(Rooms.getRooms()));
+
   if (!room) {
     ws.send(createErrorResponse(id, `${ErrorMessages.ROOM_NOT_FOUND}: ${gameId}`));
     return;
