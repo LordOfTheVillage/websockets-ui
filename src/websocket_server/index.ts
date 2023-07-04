@@ -3,6 +3,7 @@ import {MessageTypes} from "../constants/constants";
 import {createErrorResponse} from "../utils/utils";
 import {register} from "../modules/registration";
 import { httpServer } from "../http_server";
+import { createRoom } from "../modules/create_room";
 
 export const webSocketServer = new WebSocket.Server({ server: httpServer});
 webSocketServer.on('connection', (ws) => {
@@ -17,6 +18,8 @@ webSocketServer.on('connection', (ws) => {
                 // updateWinners();
                 break;
             case MessageTypes.CREATE_ROOM:
+                createRoom(ws, id);
+                // updateWinners();
                 break;
             case MessageTypes.ADD_PLAYER_TO_ROOM:
                 break;

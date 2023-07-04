@@ -20,3 +20,14 @@ export const createRegistrationResponse = (id: number, name: string, index: numb
         }),
     });
 }
+
+export const createCreateGameResponse = (id: number, roomId: number, playerId: number) => {
+    return JSON.stringify({
+        type: ResponseTypes.CREATE_GAME,
+        id,
+        data: JSON.stringify({
+            roomId,
+            playerId,
+        }),
+    });
+}
