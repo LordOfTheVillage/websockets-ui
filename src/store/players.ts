@@ -5,7 +5,9 @@ export class Players {
     public static getPlayer(name: string): Player | undefined {
         return this.players.find(player => player.name === name);
     }
-    public static addPlayer(player: Player): void {
+    public static addPlayer(playerData: Omit<Player, "index">): void {
+        const index = this.players.length;
+        const player = { ...playerData, index };
         this.players.push(player);
     }
     public static removePlayer(name: string): void {

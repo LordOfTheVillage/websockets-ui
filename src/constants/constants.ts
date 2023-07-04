@@ -15,4 +15,9 @@ export const ResponseTypes = {
     ATTACK: 'attack',
     FINISH: 'finish',
     UPDATE_WINNERS: 'update_winners',
+    ERROR: 'error',
 };
+
+export const ErrorMessages = {
+    PLAYER_EXISTS: 'Player already exists',
+}
