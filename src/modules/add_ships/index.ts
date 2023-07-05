@@ -3,6 +3,7 @@ import { createErrorResponse } from "../../utils/utils";
 import WebSocket from "ws";
 import { startGame } from "../start_game";
 import { ErrorMessages } from "../../constants/constants";
+import { Ship } from "../../types/types";
 
 export const addShips = (ws: WebSocket, data: any, id: number) => {
   const { gameId, ships, indexPlayer } = JSON.parse(data);
@@ -19,7 +20,7 @@ export const addShips = (ws: WebSocket, data: any, id: number) => {
     return;
   }
 
-  player.ships = ships;
+  player.ships = ships.map((ship: Ship) => ({...ship, hits: 0}));
 
   const allPlayersExist = room.players.length === 2;
   const allPlayersReady = room.players.every((p) => p.ships && p.ships.length > 0);

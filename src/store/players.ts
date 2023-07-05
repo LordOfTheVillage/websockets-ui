@@ -1,4 +1,4 @@
-import { Hit, Player } from "../types/types";
+import { Hit, Player, Ship } from "../types/types";
 import WebSocket from "ws";
 
 export class Players {
@@ -24,6 +24,32 @@ export class Players {
 
     public static markFieldAsHit(x: number, y: number, player: Player) {
         player.hits.push({ x, y });
+    }
+
+    public static isShipHit(x: number, y: number, player: Player) {
+        return player.ships!.find((ship) => {
+            if (!ship.direction) {
+                return ship.position.y === y && x >= ship.position.x && x < ship.position.x + ship.length;
+            } else {
+                return ship.position.x === x && y >= ship.position.y && y < ship.position.y + ship.length;
+            }
+        });
+    }
+
+    public static markSurroundingFieldsAsHit(hitShip: Ship, player: Player) {
+        const { position, direction, length } = hitShip;
+        const { x, y } = position;
+        const startX = direction ? x - 1 : x - 1;
+        const startY = direction ? y - 1 : y - 1;
+        const endX = direction ? x + length : x + 1;
+        const endY = direction ? y + 1 : y + length;
+        for (let i = startX; i <= endX; i++) {
+            for (let j = startY; j <= endY; j++) {
+                if (i >= 0 && i < 10 && j >= 0 && j < 10) {
+                    this.markFieldAsHit(i, j, player);
+                }
+            }
+        }
     }
 
     public static removePlayer(name: string): void {

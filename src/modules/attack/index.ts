@@ -42,14 +42,18 @@ export const attack = (ws: WebSocket, data: any, id: number) => {
 
   const turn = room.turn;
   let status = Statuses.MISS;
-  const hitShip = otherPlayer.ships!.find((ship) => ship.position.x === x && ship.position.y === y)!;
+
+  const hitShip = Players.isShipHit(x, y, otherPlayer);
+
   if (hitShip) {
     hitShip.hits++;
+    console.log(hitShip.hits, hitShip.length)
     if (hitShip.hits === hitShip.length) {
       status = Statuses.KILLED;
       otherPlayer.ships = otherPlayer.ships!.filter((ship) => ship !== hitShip);
       if (otherPlayer.ships.length === 0) {
-        ws.send(createFinishResponse(id, currentPlayer.index));
+        otherPlayer.ws.send(createFinishResponse(id, currentPlayer.index));
+        currentPlayer.ws.send(createFinishResponse(id, currentPlayer.index));
         return;
       }
       // Players.markSurroundingFieldsAsHit(hitShip, otherPlayer);
