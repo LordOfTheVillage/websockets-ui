@@ -8,6 +8,7 @@ import {
 import { Rooms } from "../../store/rooms";
 import { ErrorMessages, Statuses } from "../../constants/constants";
 import { Players } from "../../store/players";
+import { updateWinners } from "../update_winners";
 // import { updateRoom } from "../update_room";
 
 export const attack = (ws: WebSocket, data: any, id: number) => {
@@ -54,6 +55,8 @@ export const attack = (ws: WebSocket, data: any, id: number) => {
       if (otherPlayer.ships.length === 0) {
         otherPlayer.ws.send(createFinishResponse(id, currentPlayer.index));
         currentPlayer.ws.send(createFinishResponse(id, currentPlayer.index));
+        Players.getPlayerByWs(ws)!.wins++;
+        updateWinners(id);
         return;
       }
       // Players.markSurroundingFieldsAsHit(hitShip, otherPlayer);

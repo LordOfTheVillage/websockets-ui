@@ -11,10 +11,11 @@ export class Players {
         return this.players.find(player => player.ws === ws);
     }
 
-    public static addPlayer(playerData: Omit<Player, "index" | "hits">): void {
+    public static addPlayer(playerData: Omit<Player, "index" | "hits" | "wins">): void {
         const index = this.players.length;
         const hits: Hit[] = [];
-        const player = { ...playerData, hits, index };
+        const wins = 0;
+        const player = { ...playerData, hits, index, wins };
         this.players.push(player);
     }
 

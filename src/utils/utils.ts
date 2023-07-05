@@ -87,3 +87,10 @@ export const createUpdateRoomResponse = (id: number, roomData: any) => {
     });
 }
 
+export const createUpdateWinnersResponse = (id: number, scoreTable: any) => {
+    return JSON.stringify({
+        type: ResponseTypes.UPDATE_WINNERS,
+        data: JSON.stringify(scoreTable),
+        id,
+    });
+}

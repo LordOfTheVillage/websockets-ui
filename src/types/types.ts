@@ -13,6 +13,7 @@ export interface Player {
     ws: WebSocket;
     ships?: Ship[];
     hits: Hit[];
+    wins: number;
 }
 
 export interface Ship {

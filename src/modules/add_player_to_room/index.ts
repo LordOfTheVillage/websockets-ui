@@ -9,7 +9,6 @@ export const addPlayerToRoom = (ws: WebSocket, data: any, id: number) => {
   const { indexRoom } = JSON.parse(data);
   const player = Players.getPlayerByWs(ws);
 
-  // Find the room with the specified index
   const room = Rooms.getRoom(indexRoom);
 
   if (!room || !player) {
