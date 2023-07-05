@@ -1,15 +1,12 @@
 import WebSocket from "ws";
 import {
   createErrorResponse,
-  createFinishResponse,
-  createAttackResponse,
   createChangeTurnResponse
-} from "../../utils/utils";
+} from "../../utils/responses";
 import { Rooms } from "../../store/rooms";
-import { ErrorMessages, Statuses } from "../../constants/constants";
+import { ErrorMessages } from "../../constants/constants";
 import { Players } from "../../store/players";
-import { updateWinners } from "../update_winners";
-// import { updateRoom } from "../update_room";
+import { attackAction } from "../../utils/attack";
 
 export const attack = (ws: WebSocket, data: any, id: number) => {
   const { gameId, x, y, indexPlayer } = JSON.parse(data);
@@ -39,40 +36,5 @@ export const attack = (ws: WebSocket, data: any, id: number) => {
     return;
   }
 
-  Players.markFieldAsHit(x, y, otherPlayer);
-
-  const turn = room.turn;
-  let status = Statuses.MISS;
-
-  const hitShip = Players.isShipHit(x, y, otherPlayer);
-
-  if (hitShip) {
-    hitShip.hits++;
-    console.log(hitShip.hits, hitShip.length)
-    if (hitShip.hits === hitShip.length) {
-      status = Statuses.KILLED;
-      otherPlayer.ships = otherPlayer.ships!.filter((ship) => ship !== hitShip);
-      if (otherPlayer.ships.length === 0) {
-        otherPlayer.ws.send(createFinishResponse(id, currentPlayer.index));
-        currentPlayer.ws.send(createFinishResponse(id, currentPlayer.index));
-        Players.getPlayerByWs(ws)!.wins++;
-        updateWinners(id);
-        return;
-      }
-      // Players.markSurroundingFieldsAsHit(hitShip, otherPlayer);
-    } else {
-      status = Statuses.SHOT;
-    }
-
-  } else {
-    room.turn = otherPlayer.index;
-  }
-
-  currentPlayer.ws.send(createAttackResponse(id, { x, y }, turn, status));
-  otherPlayer.ws.send(createAttackResponse(id, { x, y }, turn, status));
-
-  currentPlayer.ws.send(createChangeTurnResponse(id, room.turn));
-  otherPlayer.ws.send(createChangeTurnResponse(id, room.turn));
-
-  // updateRoom(id);
+  attackAction(currentPlayer, otherPlayer, room, id, { x, y});
 }

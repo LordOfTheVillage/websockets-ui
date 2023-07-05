@@ -1,5 +1,5 @@
 import {Players} from "../../store/players";
-import {createRegistrationResponse} from "../../utils/utils";
+import {createRegistrationResponse} from "../../utils/responses";
 import WebSocket from "ws";
 import {ErrorMessages} from "../../constants/constants";
 import { updateRoom } from "../update_room";

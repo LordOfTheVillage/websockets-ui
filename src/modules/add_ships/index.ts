@@ -1,5 +1,5 @@
 import { Rooms } from "../../store/rooms";
-import { createErrorResponse } from "../../utils/utils";
+import { createErrorResponse } from "../../utils/responses";
 import WebSocket from "ws";
 import { startGame } from "../start_game";
 import { ErrorMessages } from "../../constants/constants";

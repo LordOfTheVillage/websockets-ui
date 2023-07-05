@@ -1,6 +1,6 @@
 import { broadcastResponse } from "../../websocket_server";
 import { Players } from "../../store/players";
-import { createUpdateWinnersResponse } from "../../utils/utils";
+import { createUpdateWinnersResponse } from "../../utils/responses";
 
 export const updateWinners = (id: number) => {
   const scoreTable = Players.getPlayers().map((player) => ({

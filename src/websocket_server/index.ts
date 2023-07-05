@@ -1,6 +1,6 @@
 import * as WebSocket from "ws";
 import {MessageTypes} from "../constants/constants";
-import {createErrorResponse} from "../utils/utils";
+import {createErrorResponse} from "../utils/responses";
 import {register} from "../modules/registration";
 import { httpServer } from "../http_server";
 import { createRoom } from "../modules/create_room";

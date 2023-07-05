@@ -1,5 +1,5 @@
 import { Room } from "../../types/types";
-import { createChangeTurnResponse, createStartGameResponse } from "../../utils/utils";
+import { createChangeTurnResponse, createStartGameResponse } from "../../utils/responses";
 
 export const startGame = (id: number, room: Room) => {
   const playersInRoom = room.players.length;

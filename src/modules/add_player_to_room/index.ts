@@ -1,7 +1,7 @@
 import WebSocket from "ws";
 import { Players } from "../../store/players";
 import { Rooms } from "../../store/rooms";
-import { createCreateGameResponse, createErrorResponse } from "../../utils/utils";
+import { createCreateGameResponse, createErrorResponse } from "../../utils/responses";
 import { ErrorMessages } from "../../constants/constants";
 import { updateRoom } from "../update_room";
 

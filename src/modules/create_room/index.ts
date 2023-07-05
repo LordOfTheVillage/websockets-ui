@@ -1,7 +1,7 @@
 import { Rooms } from "../../store/rooms";
 import { Players } from "../../store/players";
 import WebSocket from "ws";
-import { createCreateGameResponse } from "../../utils/utils";
+import { createCreateGameResponse } from "../../utils/responses";
 
 export const createRoom = (ws: WebSocket, id: number) => {
   const room = Rooms.createRoom();
