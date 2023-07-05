@@ -12,6 +12,7 @@ export interface Player {
     password: string;
     ws: WebSocket;
     ships?: Ship[];
+    hits: Hit[];
 }
 
 export interface Ship {
@@ -23,4 +24,9 @@ export interface Ship {
     length: number,
     type: "small" | "medium" | "large" | "huge",
     hits: number,
+}
+
+export interface Hit {
+    x: number,
+    y: number,
 }

@@ -1,4 +1,5 @@
 import { ResponseTypes, Statuses } from "../constants/constants";
+import { Ship } from "../types/types";
 
 export const createErrorResponse = (id: number, message: string) => {
     return JSON.stringify({
@@ -32,9 +33,14 @@ export const createCreateGameResponse = (id: number, idGame: number, idPlayer: n
     });
 }
 
-export const createStartGameResponse = () => {
+export const createStartGameResponse = (id: number, ships: Ship[], currentPlayerIndex: number) => {
     return JSON.stringify({
         type: ResponseTypes.START_GAME,
+        id,
+        data: JSON.stringify({
+            ships,
+            currentPlayerIndex,
+        })
     });
 }
 
@@ -63,6 +69,16 @@ export const createAttackResponse = (id: number, {x, y}: Record<string, number>,
     });
 }
 
+export const createChangeTurnResponse = (id: number, currentPlayer: number) => {
+    return JSON.stringify({
+        type: ResponseTypes.TURN,
+        id,
+        data: JSON.stringify({
+            currentPlayer,
+        }),
+    });
+}
+
 export const createUpdateRoomResponse = (id: number, roomData: any) => {
     return JSON.stringify({
         type: ResponseTypes.UPDATE_ROOM,
@@ -70,3 +86,4 @@ export const createUpdateRoomResponse = (id: number, roomData: any) => {
         data: JSON.stringify([...roomData]),
     });
 }
+

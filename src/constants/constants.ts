@@ -24,6 +24,7 @@ export enum ErrorMessages {
     ROOM_NOT_FOUND = 'Room not found',
     PLAYER_NOT_FOUND = 'Player not found',
     NOT_YOUR_TURN = 'Not your turn',
+    TARGET_FIELD_IS_HIT = 'Target field is already hit',
 }
 
 export enum Statuses {

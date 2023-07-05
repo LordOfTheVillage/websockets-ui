@@ -21,8 +21,9 @@ export const addShips = (ws: WebSocket, data: any, id: number) => {
 
   player.ships = ships;
 
+  const allPlayersExist = room.players.length === 2;
   const allPlayersReady = room.players.every((p) => p.ships && p.ships.length > 0);
-  if (allPlayersReady) {
-    startGame(room);
+  if (allPlayersReady && allPlayersExist) {
+    startGame(id, room);
   }
 }

@@ -1,15 +1,21 @@
 import WebSocket from "ws";
 import { Rooms } from "../../store/rooms";
-import { createAttackResponse, createErrorResponse, createFinishResponse } from "../../utils/utils";
+import {
+  createAttackResponse,
+  createChangeTurnResponse,
+  createErrorResponse,
+  createFinishResponse
+} from "../../utils/utils";
 import { ErrorMessages, Statuses } from "../../constants/constants";
-import { updateRoom } from "../update_room";
+import { Players } from "../../store/players";
+// import { updateRoom } from "../update_room";
 
 export const randomAttack = (ws: WebSocket, data: any, id: number) => {
-  const { gameID, indexPlayer } = JSON.parse(data);
-  const room = Rooms.getRoom(gameID);
+  const { gameId, indexPlayer } = JSON.parse(data);
+  const room = Rooms.getRoom(gameId);
 
   if (!room) {
-    ws.send(createErrorResponse(id, `${ErrorMessages.ROOM_NOT_FOUND}: ${gameID}`));
+    ws.send(createErrorResponse(id, `${ErrorMessages.ROOM_NOT_FOUND}: ${gameId}`));
     return;
   }
 
@@ -29,7 +35,15 @@ export const randomAttack = (ws: WebSocket, data: any, id: number) => {
   const x = Math.floor(Math.random() * 10);
   const y = Math.floor(Math.random() * 10);
 
+  if (Players.isFieldHit(x, y, otherPlayer)) {
+    ws.send(createErrorResponse(id, ErrorMessages.TARGET_FIELD_IS_HIT));
+    return;
+  }
+
+  Players.markFieldAsHit(x, y, otherPlayer);
+
   let status = Statuses.MISS;
+  const turn = room.turn;
   const hitShip = otherPlayer.ships!.find((ship) => ship.position.x === x && ship.position.y === y);
   if (hitShip) {
     hitShip.hits++;
@@ -43,12 +57,15 @@ export const randomAttack = (ws: WebSocket, data: any, id: number) => {
     } else {
       status = Statuses.SHOT
     }
+  } else {
+    room.turn = otherPlayer.index;
   }
 
-  room.turn = otherPlayer.index;
+  currentPlayer.ws.send(createAttackResponse(id, { x, y }, turn, status));
+  otherPlayer.ws.send(createAttackResponse(id, { x, y }, turn, status));
 
-  currentPlayer.ws.send(createAttackResponse(id, { x, y }, room.turn, status));
-  otherPlayer.ws.send(createAttackResponse(id, { x, y }, room.turn, status));
+  currentPlayer.ws.send(createChangeTurnResponse(id, room.turn));
+  otherPlayer.ws.send(createChangeTurnResponse(id, room.turn));
 
-  updateRoom(id);
+  // updateRoom(id);
 }
