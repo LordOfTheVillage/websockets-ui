@@ -33,7 +33,7 @@ export const randomAttack = (ws: WebSocket, data: any, id: number) => {
   }
 
 
-  const otherPlayer = room.players.find((p) => p !== currentPlayer)!;
+  const otherPlayer = room.players.find((p) => p.index !== currentPlayer.index)!;
 
   const { x, y } = getRandomField(otherPlayer);
 
