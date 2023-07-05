@@ -1,5 +1,5 @@
 import * as WebSocket from "ws";
-import {MessageTypes} from "../constants/constants";
+import { ErrorMessages, LogMessages, MessageTypes } from "../constants/constants";
 import {createErrorResponse} from "../utils/responses";
 import {register} from "../modules/registration";
 import { httpServer } from "../http_server";
@@ -9,13 +9,16 @@ import { addPlayerToRoom } from "../modules/add_player_to_room";
 import { attack } from "../modules/attack";
 import { randomAttack } from "../modules/random_attack";
 import { updateWinners } from "../modules/update_winners";
+import { closeSocket } from "../modules/close_socket";
 
 export const webSocketServer = new WebSocket.Server({ server: httpServer});
 webSocketServer.on('connection', (ws) => {
+    console.log(LogMessages.PLAYER_CONNECTED);
+
     ws.on('message', (message) => {
-        const {type, id, data} = JSON.parse(message.toString());
-        // TODO: remove console.log
-        console.log("GET message", JSON.parse(message.toString()));
+        const messageObject = JSON.parse(message.toString());
+        const {type, id, data} = messageObject;
+        console.log(LogMessages.RECEIVE_MESSAGE, messageObject);
 
         switch (type) {
             case MessageTypes.REG:
@@ -39,9 +42,14 @@ webSocketServer.on('connection', (ws) => {
                 randomAttack(ws, data, id)
                 break;
             default:
-                ws.send(createErrorResponse(id, `Invalid message type: ${type}`));
+                ws.send(createErrorResponse(id, `${ErrorMessages.INVALID_MESSAGE_TYPE}: ${type}`));
                 break;
         }
+    });
+
+    ws.on('close', () => {
+        closeSocket(ws);
+        console.log(LogMessages.PLAYER_DISCONNECTED);
     });
 });
 

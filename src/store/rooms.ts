@@ -32,4 +32,8 @@ export class Rooms {
     public static getRooms(): Room[] {
         return this.rooms;
     }
+
+    public static getRoomByPlayerIndex(index: number): Room | undefined {
+        return this.rooms.find(room => room.players.some(player => player.index === index));
+    }
 }

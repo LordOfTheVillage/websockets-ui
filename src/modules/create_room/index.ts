@@ -2,6 +2,7 @@ import { Rooms } from "../../store/rooms";
 import { Players } from "../../store/players";
 import WebSocket from "ws";
 import { createCreateGameResponse } from "../../utils/responses";
+import { LogMessages } from "../../constants/constants";
 
 export const createRoom = (ws: WebSocket, id: number) => {
   const room = Rooms.createRoom();
@@ -10,6 +11,7 @@ export const createRoom = (ws: WebSocket, id: number) => {
   if (player) {
     Rooms.addPlayerToRoom(room.index, { ...player });
   }
-
-  ws.send(createCreateGameResponse(id, room.index, player?.index || 0));
+  const response = createCreateGameResponse(id, room.index, player?.index || 0);
+  ws.send(response);
+  console.log(LogMessages.SEND_MESSAGE, response);
 }

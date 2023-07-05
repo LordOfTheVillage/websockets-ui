@@ -25,6 +25,14 @@ export enum ErrorMessages {
     PLAYER_NOT_FOUND = 'Player not found',
     NOT_YOUR_TURN = 'Not your turn',
     TARGET_FIELD_IS_HIT = 'Target field is already hit',
+    INVALID_MESSAGE_TYPE = 'Invalid message type',
+}
+
+export enum LogMessages {
+    PLAYER_CONNECTED = 'WebSocket connection established',
+    PLAYER_DISCONNECTED = 'WebSocket connection closed',
+    SEND_MESSAGE = 'Send message: ',
+    RECEIVE_MESSAGE = 'Receive message: ',
 }
 
 export enum Statuses {

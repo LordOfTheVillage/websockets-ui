@@ -3,7 +3,7 @@ import { Rooms } from "../../store/rooms";
 import {
   createErrorResponse,
 } from "../../utils/responses";
-import { ErrorMessages } from "../../constants/constants";
+import { ErrorMessages, LogMessages } from "../../constants/constants";
 import { attackAction, getRandomField } from "../../utils/attack";
 
 export const randomAttack = (ws: WebSocket, data: any, id: number) => {
@@ -11,20 +11,27 @@ export const randomAttack = (ws: WebSocket, data: any, id: number) => {
   const room = Rooms.getRoom(gameId);
 
   if (!room) {
-    ws.send(createErrorResponse(id, `${ErrorMessages.ROOM_NOT_FOUND}: ${gameId}`));
+    const response = createErrorResponse(id, `${ErrorMessages.ROOM_NOT_FOUND}: ${gameId}`);
+    ws.send(response);
+    console.log(LogMessages.SEND_MESSAGE, response);
     return;
   }
 
   const currentPlayer = room.players[indexPlayer];
   if (!currentPlayer) {
-    ws.send(createErrorResponse(id, `${ErrorMessages.PLAYER_NOT_FOUND}: ${indexPlayer}`));
+    const response = createErrorResponse(id, `${ErrorMessages.PLAYER_NOT_FOUND}: ${indexPlayer}`);
+    ws.send(response);
+    console.log(LogMessages.SEND_MESSAGE, response);
     return;
   }
 
   if (room.turn !== indexPlayer) {
-    ws.send(createErrorResponse(id, ErrorMessages.NOT_YOUR_TURN));
+    const response = createErrorResponse(id, ErrorMessages.NOT_YOUR_TURN);
+    ws.send(response);
+    console.log(LogMessages.SEND_MESSAGE, response);
     return;
   }
+
 
   const otherPlayer = room.players.find((p) => p !== currentPlayer)!;
 

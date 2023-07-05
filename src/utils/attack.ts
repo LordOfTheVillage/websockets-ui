@@ -1,7 +1,7 @@
 import { Players } from "../store/players";
 import { Hit, Player, Room } from "../types/types";
 import { createAttackResponse, createChangeTurnResponse, createFinishResponse } from "./responses";
-import { Statuses } from "../constants/constants";
+import { LogMessages, Statuses } from "../constants/constants";
 import { updateWinners } from "../modules/update_winners";
 
 export const getRandomField = (player: Player) => {
@@ -31,8 +31,10 @@ export const attackAction = (currentPlayer: Player, otherPlayer: Player, room: R
       status = Statuses.KILLED;
       otherPlayer.ships = otherPlayer.ships!.filter((ship) => ship !== hitShip);
       if (otherPlayer.ships.length === 0) {
-        otherPlayer.ws.send(createFinishResponse(id, currentPlayer.index));
-        currentPlayer.ws.send(createFinishResponse(id, currentPlayer.index));
+        const response = createFinishResponse(id, currentPlayer.index);
+        otherPlayer.ws.send(response);
+        currentPlayer.ws.send(response);
+        console.log(LogMessages.SEND_MESSAGE, response);
         Players.getPlayerByWs(currentPlayer.ws)!.wins++;
         updateWinners(id);
         return;
@@ -44,10 +46,15 @@ export const attackAction = (currentPlayer: Player, otherPlayer: Player, room: R
   } else {
     room.turn = otherPlayer.index;
   }
+  const attackResponse = createAttackResponse(id, { x, y }, turn, status);
+  const turnResponse = createChangeTurnResponse(id, room.turn);
 
-  currentPlayer.ws.send(createAttackResponse(id, { x, y }, turn, status));
-  otherPlayer.ws.send(createAttackResponse(id, { x, y }, turn, status));
+  currentPlayer.ws.send(attackResponse);
+  otherPlayer.ws.send(attackResponse);
 
-  currentPlayer.ws.send(createChangeTurnResponse(id, room.turn));
-  otherPlayer.ws.send(createChangeTurnResponse(id, room.turn));
+  currentPlayer.ws.send(turnResponse);
+  otherPlayer.ws.send(turnResponse);
+
+  console.log(LogMessages.SEND_MESSAGE, attackResponse);
+  console.log(LogMessages.SEND_MESSAGE, turnResponse);
 }

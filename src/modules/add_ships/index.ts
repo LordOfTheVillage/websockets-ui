@@ -2,7 +2,7 @@ import { Rooms } from "../../store/rooms";
 import { createErrorResponse } from "../../utils/responses";
 import WebSocket from "ws";
 import { startGame } from "../start_game";
-import { ErrorMessages } from "../../constants/constants";
+import { ErrorMessages, LogMessages } from "../../constants/constants";
 import { Ship } from "../../types/types";
 
 export const addShips = (ws: WebSocket, data: any, id: number) => {
@@ -10,13 +10,17 @@ export const addShips = (ws: WebSocket, data: any, id: number) => {
   const room = Rooms.getRoom(gameId);
 
   if (!room) {
-    ws.send(createErrorResponse(id, `${ErrorMessages.ROOM_NOT_FOUND}: ${gameId}`));
+    const response = createErrorResponse(id, `${ErrorMessages.ROOM_NOT_FOUND}: ${gameId}`);
+    ws.send(response);
+    console.log(LogMessages.SEND_MESSAGE, response);
     return;
   }
 
   const player = room.players[indexPlayer];
   if (!player) {
-    ws.send(createErrorResponse(id, `${ErrorMessages.PLAYER_NOT_FOUND}: ${indexPlayer}`));
+    const response = createErrorResponse(id, `${ErrorMessages.PLAYER_NOT_FOUND}: ${indexPlayer}`);
+    ws.send(response);
+    console.log(LogMessages.SEND_MESSAGE, response);
     return;
   }
 
