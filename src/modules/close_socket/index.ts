@@ -9,10 +9,7 @@ export const closeSocket = (ws: WebSocket) => {
 
     if (room) {
       const index = room.players.findIndex((p) => p.index === player.index);
-
-      if (index !== -1 && room.players.length > 1) {
-        room.players.splice(index, 1);
-      } else if (index !== -1 && room.players.length == 1) {
+      if (index !== -1 && room.players.length == 1) {
         Rooms.removeRoom(room.index)
       }
     }

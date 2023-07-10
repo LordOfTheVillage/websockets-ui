@@ -5,7 +5,8 @@ export enum MessageTypes {
     ADD_SHIPS = 'add_ships',
     ATTACK = 'attack',
     RANDOM_ATTACK = 'randomAttack',
-};
+    SINGLE_PLAY = 'single_play',
+}
 
 export enum ResponseTypes  {
     REG = 'reg',
@@ -17,7 +18,7 @@ export enum ResponseTypes  {
     FINISH =  'finish',
     UPDATE_WINNERS = 'update_winners',
     ERROR = 'error',
-};
+}
 
 export enum ErrorMessages {
     PLAYER_EXISTS = 'Player already exists',
@@ -39,4 +40,10 @@ export enum Statuses {
     MISS = 'miss',
     SHOT = 'shot',
     KILLED = 'killed',
+}
+
+
+export enum RoomTypes {
+    SINGLE = 'single',
+    MULTI = 'multi',
 }

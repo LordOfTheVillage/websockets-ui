@@ -1,9 +1,13 @@
-import { Rooms } from "../../store/rooms";
-import { createErrorResponse } from "../../utils/responses";
-import WebSocket from "ws";
-import { startGame } from "../start_game";
-import { ErrorMessages, LogMessages } from "../../constants/constants";
-import { Ship } from "../../types/types";
+import { Rooms } from '../../store/rooms';
+import { createErrorResponse } from '../../utils/responses';
+import WebSocket from 'ws';
+import { startGame } from '../start_game';
+import {
+  ErrorMessages,
+  LogMessages,
+  RoomTypes,
+} from '../../constants/constants';
+import { Ship } from '../../types/types';
 
 export const addShips = (ws: WebSocket, data: any, id: number) => {
   const { gameId, ships, indexPlayer } = JSON.parse(data);
@@ -28,7 +32,7 @@ export const addShips = (ws: WebSocket, data: any, id: number) => {
 
   const allPlayersExist = room.players.length === 2;
   const allPlayersReady = room.players.every((p) => p.ships && p.ships.length > 0);
-  if (allPlayersReady && allPlayersExist) {
+  if (allPlayersReady && allPlayersExist || room.type === RoomTypes.SINGLE) {
     startGame(id, room);
   }
 }

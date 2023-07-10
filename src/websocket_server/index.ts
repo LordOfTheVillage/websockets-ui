@@ -1,5 +1,5 @@
 import * as WebSocket from "ws";
-import { ErrorMessages, LogMessages, MessageTypes } from "../constants/constants";
+import { ErrorMessages, LogMessages, MessageTypes, RoomTypes } from "../constants/constants";
 import {createErrorResponse} from "../utils/responses";
 import {register} from "../modules/registration";
 import { httpServer } from "../http_server";
@@ -40,6 +40,10 @@ webSocketServer.on('connection', (ws) => {
                 break;
             case MessageTypes.RANDOM_ATTACK:
                 randomAttack(ws, data, id)
+                break;
+            case MessageTypes.SINGLE_PLAY:
+                createRoom(ws, id, RoomTypes.SINGLE);
+                updateWinners(id);
                 break;
             default:
                 ws.send(createErrorResponse(id, `${ErrorMessages.INVALID_MESSAGE_TYPE}: ${type}`));

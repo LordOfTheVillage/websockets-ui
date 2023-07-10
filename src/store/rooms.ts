@@ -1,4 +1,5 @@
 import { Player, Room } from "../types/types";
+import { RoomTypes } from "../constants/constants";
 
 export class Rooms {
     private static rooms: Room[] = [];
@@ -7,9 +8,9 @@ export class Rooms {
         return this.rooms.find(room => room.index === id);
     }
 
-    public static createRoom(): Room {
+    public static createRoom(type: RoomTypes): Room {
         const roomId = Rooms.rooms.length;
-        const newRoom = { index: roomId, players: [], turn: 0 };
+        const newRoom = { index: roomId, players: [], turn: 0, type };
         Rooms.rooms.push(newRoom);
         return newRoom;
     }

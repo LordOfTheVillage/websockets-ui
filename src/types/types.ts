@@ -1,9 +1,11 @@
 import WebSocket from "ws";
+import { RoomTypes } from "../constants/constants";
 
 export interface Room {
     index: number;
     players: Player[];
     turn: number;
+    type: RoomTypes;
 }
 
 export interface Player {
